@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: testdashboard_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin834
+      POSTGRES_DB: login
+    ports:
+      - "5479:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - testdashboard_net
+
+  backend:
+    build: ./Backend
+    container_name: testdashboard_backend
+    ports:
+      - "3081:3081"
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: admin834
+      DB_DATABASE: login
+      DB_HOST: postgres
+      DB_PORT: 5432
+      JWT_SECRET: your_jwt_secret_key
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app  # ✅ Mount the whole project directory
+    networks:
+      - testdashboard_net
+
+  dashboard:
+    build: ./Dashboard
+    container_name: testdashboard_dashboard
+    ports:
+      - "8115:80"
+    networks:
+      - testdashboard_net
+
+  forgot_password:
+    build: ./Forgot_password
+    container_name: testdashboard_forgot_password
+    ports:
+      - "8116:80"
+    networks:
+      - testdashboard_net
+
+  login:
+    build: ./Login
+    container_name: testdashboard_login
+    ports:
+      - "8117:80"
+    networks:
+      - testdashboard_net
+
+  sign:
+    build: ./Sign
+    container_name: testdashboard_sign
+    ports:
+      - "8118:80"
+    networks:
+      - testdashboard_net
+
+volumes:
+  db_data:
+
+networks:
+  testdashboard_net:
+

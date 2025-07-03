@@ -290,7 +290,7 @@
                 alert('Signup successful! Redirecting to Login page...');
                 
                 // Redirect to login page after successful signup
-                window.location.href = 'http://13.221.233.193:8117/Login/index.html';
+                window.location.href = 'http://13.221.233.193:8117/';
                 
             } catch (error) {
                 console.error('Signup request failed:', error);

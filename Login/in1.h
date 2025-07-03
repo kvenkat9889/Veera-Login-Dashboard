@@ -241,7 +241,7 @@
                       }                      
 
                       console.log('Login successful, redirecting to dashboard');
-                      window.location.href = 'http://13.221.233.193:8115/Dashboard/index.html'; 
+                      window.location.href = 'http://13.221.233.193:8115/'; 
                   } catch (error) {
                       console.error('Login error:', error);
                       alert(error.message);

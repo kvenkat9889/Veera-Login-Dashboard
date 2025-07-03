@@ -798,7 +798,7 @@
                   console.error('Error fetching user data:', error.message);
                   if (error.message.includes('401') || error.message.includes('403')) {
                       alert('Unauthorized, please login.');
-                      window.location.href = '../Login/index.html';
+                      window.location.href = 'http://13.221.233.193:8117';
                   } else {
                       const headerUsername = document.getElementById('header-username');
                       const sidebarProfilePicture = document.getElementById('sidebar-profile-picture');
@@ -931,10 +931,10 @@
                       credentials: 'include'
                   });
                   console.log('Logout successful');
-                  window.location.href = '../Login/index.html';
+                  window.location.href = 'http://13.221.233.193:8117';
               } catch (error) {
                   console.error('Error during logout:', error);
-                  window.location.href = '../Login/index.html';
+                  window.location.href = 'http://13.221.233.193:8117';
               }
           }
 
