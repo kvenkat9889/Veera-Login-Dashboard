@@ -11,20 +11,20 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3081;
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 const pool = new Pool({
   user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'localhost',
+  host: process.env.DB_HOST || 'postgres',
   database: process.env.DB_DATABASE || 'login',
-  password: process.env.DB_PASSWORD || 'Veera@0134',
+  password: process.env.DB_PASSWORD || 'admin834',
   port: parseInt(process.env.DB_PORT) || 5432,
 });
 
 const allowedOrigins = [
   'http://127.0.0.1:5500',
-  'http://localhost:3000'
+  'http://13.221.233.193:3081'
 ];
 
 app.use(cors({
@@ -156,7 +156,7 @@ res.cookie('token', token, {
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'none', // Change from 'lax' to 'none' for cross-origin
   maxAge: 60 * 60 * 1000,
-  domain: process.env.NODE_ENV === 'production' ? 'yourdomain.com' : 'localhost'
+  domain: process.env.NODE_ENV === 'production' ? 'yourdomain.com' : '13.221.233.193'
 });
     console.log('Setting cookie, response headers:', res.getHeaders());
 
@@ -314,7 +314,7 @@ app.get('/api/protected', authenticateToken, (req, res) => {
 
 initDatabase().then(() => {
   app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+    console.log(`Server running on http://13.221.233.193:${port}`);
     console.log('Available routes:');
     console.log('GET  /                 -> Login page');
     console.log('GET  /signup           -> Signup page');
