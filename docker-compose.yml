@@ -6,70 +6,112 @@ services:
     container_name: testdashboard_postgres
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin834
+      POSTGRES_PASSWORD: admin123
       POSTGRES_DB: login
     ports:
       - "6644:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d login"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
     networks:
-      - testdashboard_net
+      testdashboard_net:
+        ipv4_address: 10.10.10.2
 
   backend:
-    build: ./Backend
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
     container_name: testdashboard_backend
     ports:
       - "3646:3646"
     environment:
       DB_USER: postgres
-      DB_PASSWORD: admin834
+      DB_PASSWORD: admin123
       DB_DATABASE: login
       DB_HOST: postgres
       DB_PORT: 5432
       JWT_SECRET: your_jwt_secret_key
+      NODE_ENV: production
+      DB_CONNECTION_RETRIES: 10
+      DB_CONNECTION_DELAY: 5000
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:
-      - .:/app  # ✅ Mount the whole project directory
+      - ./Backend:/app/Backend
+      - /app/Backend/node_modules
+    restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3646/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
-      - testdashboard_net
+      testdashboard_net:
+        ipv4_address: 10.10.10.3
 
   dashboard:
-    build: ./Dashboard
+    build: 
+      context: ./Dashboard
+      dockerfile: Dockerfile
     container_name: testdashboard_dashboard
     ports:
       - "7613:80"
+    restart: unless-stopped
     networks:
-      - testdashboard_net
+      testdashboard_net:
+        ipv4_address: 10.10.10.4
 
   forgot_password:
-    build: ./Forgot_password
+    build: 
+      context: ./Forgot_password
+      dockerfile: Dockerfile
     container_name: testdashboard_forgot_password
     ports:
       - "7612:80"
+    restart: unless-stopped
     networks:
-      - testdashboard_net
+      testdashboard_net:
+        ipv4_address: 10.10.10.5
 
   login:
-    build: ./Login
+    build: 
+      context: ./Login
+      dockerfile: Dockerfile
     container_name: testdashboard_login
     ports:
       - "7610:80"
+    restart: unless-stopped
     networks:
-      - testdashboard_net
+      testdashboard_net:
+        ipv4_address: 10.10.10.6
 
   sign:
-    build: ./Sign
+    build: 
+      context: ./Sign
+      dockerfile: Dockerfile
     container_name: testdashboard_sign
     ports:
       - "7611:80"
+    restart: unless-stopped
     networks:
-      - testdashboard_net
+      testdashboard_net:
+        ipv4_address: 10.10.10.7
 
 volumes:
   db_data:
 
 networks:
   testdashboard_net:
-
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "10.10.10.0/26"
+          gateway: "10.10.10.1"
