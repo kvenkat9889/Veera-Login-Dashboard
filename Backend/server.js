@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 3081;
+const port = process.env.PORT || 3646;
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key';
 
 // PostgreSQL connection
@@ -18,17 +18,17 @@ const pool = new Pool({
   user: process.env.DB_USER || 'postgres',
   host: process.env.DB_HOST || 'postgres',
   database: process.env.DB_DATABASE || 'login',
-  password: process.env.DB_PASSWORD || 'admin834',
+  password: process.env.DB_PASSWORD || 'admin123',
   port: parseInt(process.env.DB_PORT) || 5432,
 });
 
 // CORS setup
 const allowedOrigins = [
   'http://127.0.0.1:5500',
-  'http://13.221.233.193:8115',
-  'http://13.221.233.193:8116',
-  'http://13.221.233.193:8117',
-  'http://13.221.233.193:8118'
+  'http://44.223.23.145:7610',
+  'http://44.223.23.145:7611',
+  'http://44.223.23.145:7612',
+  'http://44.223.23.145:7613'
 ];
 
 app.use(cors({
@@ -260,7 +260,7 @@ app.get('/api/protected', authenticateToken, (req, res) => {
 // Start Server
 initDatabase().then(() => {
   app.listen(port, () => {
-    console.log(`✅ Server running at http://13.221.233.193:${port}`);
+    console.log(`✅ Server running at http://44.223.23.145:${port}`);
   });
 });
 

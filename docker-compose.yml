@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: admin834
       POSTGRES_DB: login
     ports:
-      - "5479:5432"
+      - "6644:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -20,7 +20,7 @@ services:
     build: ./Backend
     container_name: testdashboard_backend
     ports:
-      - "3081:3081"
+      - "3646:3646"
     environment:
       DB_USER: postgres
       DB_PASSWORD: admin834
@@ -39,7 +39,7 @@ services:
     build: ./Dashboard
     container_name: testdashboard_dashboard
     ports:
-      - "8115:80"
+      - "7613:80"
     networks:
       - testdashboard_net
 
@@ -47,7 +47,7 @@ services:
     build: ./Forgot_password
     container_name: testdashboard_forgot_password
     ports:
-      - "8116:80"
+      - "7612:80"
     networks:
       - testdashboard_net
 
@@ -55,7 +55,7 @@ services:
     build: ./Login
     container_name: testdashboard_login
     ports:
-      - "8117:80"
+      - "7610:80"
     networks:
       - testdashboard_net
 
@@ -63,7 +63,7 @@ services:
     build: ./Sign
     container_name: testdashboard_sign
     ports:
-      - "8118:80"
+      - "7611:80"
     networks:
       - testdashboard_net
 

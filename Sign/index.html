@@ -173,7 +173,7 @@
                 <button type="submit">Sign Up</button>
             </form>
 
-            <a href="http://13.221.233.193:8117/">Already have an account? Sign In</a>
+            <a href="http://44.223.23.145:7610/">Already have an account? Sign In</a>
         </div>
     </div>
 
@@ -264,7 +264,7 @@
             }
 
             try {
-                const response = await fetch('http://13.221.233.193:3081/api/signup', {
+                const response = await fetch('http://44.223.23.145:3646/api/signup', {
                     method: 'POST',
                     credentials: 'include', // Important for cookies
                     body: formData
@@ -290,7 +290,7 @@
                 alert('Signup successful! Redirecting to Login page...');
                 
                 // Redirect to login page after successful signup
-                window.location.href = 'http://13.221.233.193:8117/Login/index.html';
+                window.location.href = 'http://44.223.23.145:7610/Login/index.html';
                 
             } catch (error) {
                 console.error('Signup request failed:', error);

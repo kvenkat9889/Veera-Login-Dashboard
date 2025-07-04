@@ -13,7 +13,7 @@ COPY . .
 # Start from inside Backend subfolder
 WORKDIR /app/Backend
 
-EXPOSE 3081
+EXPOSE 3646
 
 CMD ["node", "server.js"]
 
